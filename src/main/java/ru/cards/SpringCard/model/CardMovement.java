@@ -8,7 +8,7 @@ import lombok.*;
 @Entity
 public class CardMovement {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToOne

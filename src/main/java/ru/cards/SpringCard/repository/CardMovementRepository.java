@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface CardMovementRepository extends JpaRepository<CardMovement, Long> {
     List<CardMovement> findByCardId(Long cardId);
+    List<CardMovement> findByCardPanNumber(String panNumber);
 }

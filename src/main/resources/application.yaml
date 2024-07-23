@@ -3,9 +3,17 @@ spring:
     url: jdbc:postgresql://localhost:5432/CardServiceGradle
     username: postgres
     password: Zhenya123
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  freemarker:
+    template-loader-path: classpath:/templates/
+    suffix: .ftl
+    charset: UTF-8
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     database: postgresql
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect

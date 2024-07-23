@@ -1,6 +1,7 @@
 package ru.cards.SpringCard.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +13,7 @@ import java.util.List;
 public class Card {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     public enum ProductType {
@@ -39,6 +40,7 @@ public class Card {
     @JsonIgnore
     private String panNumber;
     @Transient
+    //@JsonProperty("maskPanNumber")
     private String maskPanNumber;
 
     @ManyToOne
@@ -46,13 +48,10 @@ public class Card {
     @ManyToOne
     private Owner owner;
 
-
-//    public String setMaskPanNumber(String panNumber){
-//        maskPanNumber = panNumber.substring(0,6) + "******" + panNumber.substring(panNumber.length()-4);
-//        return maskPanNumber;
-//    }
     public String getMaskPanNumber(){
-       return panNumber.substring(0,6) + "******" + panNumber.substring(panNumber.length()-4);
+        if (maskPanNumber == null)
+            return "****************";
+       return maskPanNumber.substring(0,6) + "******" + maskPanNumber.substring(maskPanNumber.length()-4);
    }
 
 }
