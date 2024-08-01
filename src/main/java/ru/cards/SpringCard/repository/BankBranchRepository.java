@@ -7,4 +7,5 @@ public interface BankBranchRepository extends JpaRepository<BankBranch,Long> {
 
     //public BankBranch findByBankBranchId(Long bankBranchId);
     //public BankBranch findByName(String name);
+
 }

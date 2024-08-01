@@ -38,6 +38,18 @@
                 </#if>
             </select>
         </div>
+        <div>
+            <label for="endPoint" class="form-label">Банковское отделение:</label>
+            <select id="endPoint" name="endPoint" class="form-select" required>
+                <#if nonMainBranches??>
+                    <#list nonMainBranches as branch>
+                        <option value="${branch.id}">${branch.name}</option>
+                    </#list>
+                <#else>
+                    <option disabled>Нет доступных отделений</option>
+                </#if>
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary mt-4">Создать карту</button>
     </form>
 </div>

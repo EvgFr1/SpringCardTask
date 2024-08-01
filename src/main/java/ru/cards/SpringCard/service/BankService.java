@@ -5,14 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.cards.SpringCard.dto.CardStatusAndHistoryDTO;
-import ru.cards.SpringCard.model.BankBranch;
-import ru.cards.SpringCard.model.Card;
-import ru.cards.SpringCard.model.CardMovement;
-import ru.cards.SpringCard.model.Owner;
-import ru.cards.SpringCard.repository.BankBranchRepository;
-import ru.cards.SpringCard.repository.CardMovementRepository;
-import ru.cards.SpringCard.repository.CardRepository;
-import ru.cards.SpringCard.repository.OwnerRepository;
+import ru.cards.SpringCard.model.*;
+import ru.cards.SpringCard.repository.*;
 
 import java.util.List;
 import java.util.Random;
@@ -22,6 +16,7 @@ import java.util.Random;
 @AllArgsConstructor
 public class BankService {
 
+    private final UserRepository userRepository;
     private CardRepository cardRepository;
     private BankBranchRepository bankBranchRepository;
     private OwnerRepository ownerRepository;
@@ -53,7 +48,11 @@ public class BankService {
 
 
 
-    public Owner registerOwner(Owner owner){
+    public Owner registerOwner(Owner owner, User user) {
+//        if (user != null){
+//            user.setOwner(owner);
+//            userRepository.save(user);
+//        }
         return ownerRepository.save(owner);
     }
 
@@ -61,10 +60,12 @@ public class BankService {
         return bankBranchRepository.save(bankBranch);
     }
 
-    public Card createCard(Card card, Long ownerId, Long bankBranchId) {
+    public Card createCard(Card card, Long ownerId, Long bankBranchId, Long endPointId) {
         Owner owner = ownerRepository.findById(ownerId)
                 .orElseThrow(() -> new IllegalArgumentException("Клиент не найден"));
         BankBranch bankBranch = bankBranchRepository.findById(bankBranchId)
+                .orElseThrow(() -> new IllegalArgumentException("Банковское отделение не найдено"));
+        BankBranch endPoint = bankBranchRepository.findById(endPointId)
                 .orElseThrow(() -> new IllegalArgumentException("Банковское отделение не найдено"));
 
         if (!bankBranch.isMainBranch()) {
@@ -73,6 +74,7 @@ public class BankService {
 
         card.setOwner(owner);
         card.setCurrentLocation(bankBranch);
+        card.setEndPoint(endPoint);
         String panNumber = generateCardNumber(card.getPaymentSystem());
         card.setPanNumber(panNumber);
         card.setMaskPanNumber(panNumber);
@@ -91,7 +93,7 @@ public class BankService {
         }
 
         card.setCurrentLocation(toBranch);
-        card.setStatus(Card.Status.DELIVERED);
+        card.setStatus(Card.Status.IN_DELIVERY);
         cardRepository.save(card);
 
         CardMovement cardMovement = new CardMovement();
@@ -130,6 +132,14 @@ public class BankService {
         List<CardMovement> movements = cardMovementRepository.findByCardPanNumber(panNumber);
 
         return new CardStatusAndHistoryDTO(card.getStatus(), movements);
+    }
+
+    public List<Card> getCardsByUser(User user) {
+        if (user != null && user.getOwner() != null) {
+            Long ownerId = user.getOwner().getId();
+            return cardRepository.findByOwnerId(ownerId);
+        }
+        return List.of();
     }
 
 //    public List<CardMovement> getCardHistory(Long cardId) {

@@ -14,7 +14,7 @@
             <div class="text-start mb-4">
                 <#if createdCard??>
                     <h4 class="mb-3">Информация о карте</h4>
-                    <p>Номер карты: ${createdCard.maskPanNumber}</p>
+                    <p>Номер карты: ${createdCard.getMaskPanNumber()}</p>
                     <p>Владелец: ${createdCard.owner.firstName} ${createdCard.owner.lastName}</p>
                     <p>Адрес владельца: ${createdCard.owner.ownerAddress}</p>
                     <p>Дата рождения владельца: ${createdCard.owner.dateOfBirth}</p>

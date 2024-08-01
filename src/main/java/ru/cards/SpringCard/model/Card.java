@@ -1,11 +1,8 @@
 package ru.cards.SpringCard.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Data
 @Entity
@@ -25,7 +22,7 @@ public class Card {
     }
 
     public enum Status{
-        CREATED, DELIVERED, RECEIVED
+        CREATED, IN_DELIVERY, RECEIVED
     }
 
     @Enumerated(EnumType.STRING)
@@ -46,12 +43,14 @@ public class Card {
     @ManyToOne
     private BankBranch currentLocation;
     @ManyToOne
+    private BankBranch endPoint;
+    @ManyToOne
     private Owner owner;
 
     public String getMaskPanNumber(){
-        if (maskPanNumber == null)
+        if (panNumber == null)
             return "****************";
-       return maskPanNumber.substring(0,6) + "******" + maskPanNumber.substring(maskPanNumber.length()-4);
+       return panNumber.substring(0,6) + "******" + panNumber.substring(panNumber.length()-4);
    }
 
 }

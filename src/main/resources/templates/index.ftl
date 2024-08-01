@@ -9,12 +9,13 @@
 <div class="container mt-5 d-flex flex-column align-items-center">
     <div class="text-center mb-2">
         <h1>Card Service</h1>
+        <p>Добро пожаловать, <strong>${user.username}</strong>!</p>
         <p>Выберите одну из опций ниже:</p>
     </div>
     <div class="w-50 d-grid gap-2">
-            <a href="/register_owner_form" class="btn btn-danger btn-lg">Оформить карту</a>
-            <a href="/card_history_form" class="btn btn-primary btn-lg">Посмотреть историю перемещений</a>
-
+        <a href="/register_owner_form" class="btn btn-danger btn-lg">Оформить карту</a>
+        <a href="/card_history_form" class="btn btn-primary btn-lg">Посмотреть историю перемещений</a>
+        <a href="/myCards" class="btn btn-secondary btn-lg">Мои карты</a>
     </div>
 </div>
 </body>
