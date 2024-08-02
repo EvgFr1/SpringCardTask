@@ -41,8 +41,8 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .permitAll()
                 )
-                .userDetailsService(userDetailsService) // Устанавливаем UserDetailsService
-                .csrf(AbstractHttpConfigurer::disable); // Отключаем CSRF для упрощения тестирования, включите в продакшене
+                .userDetailsService(userDetailsService)
+                .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
     }

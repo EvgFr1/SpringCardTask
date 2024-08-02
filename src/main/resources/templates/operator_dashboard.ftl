@@ -46,8 +46,5 @@
     </table>
 </main>
 
-<footer class="mt-4">
-    <p>&copy; 2024 Моя карта</p>
-</footer>
 </body>
 </html>
